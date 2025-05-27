@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Survey Results</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+    }
+    canvas {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Survey Results</h1>
+  <p><strong>Question:</strong> <%= question %></p>
+
+  <canvas id="resultsChart" width="400" height="200"></canvas>
+
+  <script>
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Yes', 'No'],
+        datasets: [{
+          label: 'Votes',
+          data: [<%- yes_count %>, <%- no_count %>],
+          backgroundColor: ['#4CAF50', '#F44336']
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            precision: 0
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
