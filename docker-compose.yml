@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  db:
+    image: mariadb-custom
+    container_name: db-container
+    ports:
+      - "3306:3306"
+    volumes:
+      - mariadb-data:/var/lib/mysql
+    networks:
+      - backend
+
+  web1:
+    image: qr-app
+    container_name: web1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+    networks:
+      - backend
+      - frontend
+
+  web2:
+    image: qr-app
+    container_name: web2
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+    networks:
+      - backend
+      - frontend
+
+  haproxy:
+    image: haproxy:latest
+    container_name: haproxy
+    ports:
+      - "80:80"
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - web1
+      - web2
+    networks:
+      - frontend
+
+volumes:
+  mariadb-data:
+
+networks:
+  backend:
+  frontend:

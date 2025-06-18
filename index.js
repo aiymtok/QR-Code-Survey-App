@@ -5,7 +5,7 @@ const app = express();
 const port = 3000;
 
 const pool = mariadb.createPool({
-  host: '127.0.0.1',
+  host: 'db', 
   user: 'survey_user',
   password: 'survey_pass',
   database: 'survey_db',
@@ -112,3 +112,20 @@ app.get('/results/:id', async (req, res) => {
 app.listen(port, () => {
   console.log(`App running on http://localhost:${port}`);
 });
+
+pool.getConnection()
+  .then(conn => {
+    return conn.query("SELECT 1")
+      .then(res => {
+        console.log("DB connection OK:", res);
+        conn.release(); // обязательно
+      })
+      .catch(err => {
+        console.error("Query error:", err);
+        conn.release();
+      });
+  })
+  .catch(err => {
+    console.error("Connection error:", err);
+  });
+
