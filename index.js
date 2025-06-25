@@ -6,8 +6,8 @@ const port = 3000;
 
 const pool = mariadb.createPool({
   host: 'db', 
-  user: 'survey_user',
-  password: 'survey_pass',
+  user: 'root',
+  password: '',
   database: 'survey_db',
   connectionLimit: 5
 });
@@ -30,7 +30,7 @@ app.post('/create', async (req, res) => {
       [question]
     );
     const surveyId = result.insertId;
-    const voteUrl = `http://172.28.192.1:3000/vote/${surveyId}`;
+    const voteUrl = `http://192.168.178.62:3000/vote/${surveyId}`;
     console.log(voteUrl);
     const qrCode = await QRCode.toDataURL(voteUrl);
     res.render('survey', {
@@ -118,7 +118,7 @@ pool.getConnection()
     return conn.query("SELECT 1")
       .then(res => {
         console.log("DB connection OK:", res);
-        conn.release(); // обязательно
+        conn.release(); 
       })
       .catch(err => {
         console.error("Query error:", err);

@@ -1,0 +1,9 @@
+FROM amazonlinux:2
+
+RUN yum -y update && \
+    yum -y install haproxy && \
+    yum clean all
+
+COPY haproxy.cfg /etc/haproxy/haproxy.cfg
+
+CMD ["haproxy", "-f", "/etc/haproxy/haproxy.cfg"]
