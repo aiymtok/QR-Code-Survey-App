@@ -30,7 +30,7 @@ app.post('/create', async (req, res) => {
       [question]
     );
     const surveyId = result.insertId;
-    const voteUrl = `http://192.168.178.62:3000/vote/${surveyId}`;
+    const voteUrl = `http://${req.headers.host}/vote/${surveyId}`;
     console.log(voteUrl);
     const qrCode = await QRCode.toDataURL(voteUrl);
     res.render('survey', {
@@ -107,6 +107,10 @@ app.get('/results/:id', async (req, res) => {
   } finally {
     if (conn) conn.release();
   }
+});
+
+app.get('/', (req, res) => {
+  res.redirect('/create');
 });
 
 app.listen(port, () => {
