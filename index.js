@@ -5,11 +5,15 @@ const app = express();
 const port = 3000;
 
 const pool = mariadb.createPool({
-  host: 'db', 
+  host: 'db-service', 
   user: 'root',
   password: '',
   database: 'survey_db',
-  connectionLimit: 5
+  connectionLimit: 5,
+  connectTimeout: 5000,         
+  acquireTimeout: 10000,        
+  waitForConnections: true,      
+  idleTimeout: 10000         
 });
 
 app.set('view engine', 'ejs');

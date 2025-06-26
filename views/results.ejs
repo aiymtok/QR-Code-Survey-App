@@ -10,8 +10,13 @@
       text-align: center;
       margin-top: 50px;
     }
+
     canvas {
-      margin-top: 30px;
+      display: block;
+      max-width: 600px;
+      width: 100%;
+      height: auto; 
+      margin: 30px auto 0;
     }
   </style>
 </head>
@@ -19,7 +24,7 @@
   <h1>Survey Results</h1>
   <p><strong>Question:</strong> <%= question %></p>
 
-  <canvas id="resultsChart" width="400" height="200"></canvas>
+  <canvas id="resultsChart"></canvas>
 
   <script>
     const ctx = document.getElementById('resultsChart').getContext('2d');
@@ -35,6 +40,8 @@
       },
       options: {
         responsive: true,
+        maintainAspectRatio: true,
+        aspectRatio: 2, 
         scales: {
           y: {
             beginAtZero: true,
@@ -46,4 +53,5 @@
   </script>
 </body>
 </html>
+
 

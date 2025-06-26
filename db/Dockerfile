@@ -16,5 +16,5 @@ CMD ["/bin/bash", "-c", "\
     mysql -u root < /init.sql && \
     killall mysqld; \
   fi && \
-  exec /usr/libexec/mysqld --datadir=/var/lib/mysql --user=root \
+  exec /usr/libexec/mysqld --datadir=/var/lib/mysql --user=root --bind-address=0.0.0.0 \
 "]

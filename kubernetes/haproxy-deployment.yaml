@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: haproxy-deployment
+spec:
+  selector:
+    matchLabels:
+      app: haproxy
+  template:
+    metadata:
+      labels:
+        app: haproxy
+    spec:
+      containers:
+        - name: haproxy
+          image: haproxy-custom
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: config
+              mountPath: /usr/local/etc/haproxy
+      volumes:
+        - name: config
+          configMap:
+            name: haproxy-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: haproxy-service
+spec:
+  type: NodePort
+  selector:
+    app: haproxy
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30080
