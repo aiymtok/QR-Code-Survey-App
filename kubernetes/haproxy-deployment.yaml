@@ -19,7 +19,8 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: config
-              mountPath: /usr/local/etc/haproxy
+              mountPath: /usr/local/etc/haproxy/haproxy.cfg
+              subPath: haproxy.cfg
       volumes:
         - name: config
           configMap:
