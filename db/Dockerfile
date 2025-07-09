@@ -1,20 +1,15 @@
 FROM amazonlinux:2
 
-RUN yum -y update && \
-    yum -y install mariadb-server hostname passwd psmisc && \
+RUN yum update -y && \
+    yum install -y mariadb-server && \
     yum clean all
 
-COPY init.sql /init.sql
+COPY init.sql /docker-entrypoint-init.sql
 
-EXPOSE 3306
-
-CMD ["/bin/bash", "-c", "\
-  if [ ! -d /var/lib/mysql/mysql ]; then \
-    mysql_install_db --user=root --ldata=/var/lib/mysql && \
-    /usr/libexec/mysqld --datadir=/var/lib/mysql --user=root --skip-networking & \
-    sleep 5 && \
-    mysql -u root < /init.sql && \
-    killall mysqld; \
-  fi && \
-  exec /usr/libexec/mysqld --datadir=/var/lib/mysql --user=root --bind-address=0.0.0.0 \
-"]
+CMD ["sh", "-c", "\
+mysqld_safe & \
+echo '⏳ Waiting for MariaDB to be ready...'; \
+until mysqladmin ping --silent; do sleep 1; done; \
+echo '✅ MariaDB ready. Executing init.sql...'; \
+mysql -u root < /docker-entrypoint-init.sql; \
+tail -f /dev/null"]

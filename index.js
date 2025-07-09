@@ -1,19 +1,22 @@
+require('dotenv').config();
+
 const express = require('express');
 const mariadb = require('mariadb');
 const QRCode = require('qrcode');
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 const pool = mariadb.createPool({
-  host: 'db-service', 
-  user: 'root',
-  password: '',
-  database: 'survey_db',
+  host: process.env.DB_HOST || 'db-service',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'survey_db',
+  port: parseInt(process.env.DB_PORT || '3306'),
   connectionLimit: 5,
-  connectTimeout: 5000,         
-  acquireTimeout: 10000,        
-  waitForConnections: true,      
-  idleTimeout: 10000         
+  connectTimeout: 5000,
+  acquireTimeout: 10000,
+  waitForConnections: true,
+  idleTimeout: 10000
 });
 
 app.set('view engine', 'ejs');
@@ -35,14 +38,13 @@ app.post('/create', async (req, res) => {
     );
     const surveyId = result.insertId;
     const voteUrl = `http://${req.headers.host}/vote/${surveyId}`;
-    console.log(voteUrl);
     const qrCode = await QRCode.toDataURL(voteUrl);
     res.render('survey', {
-        question: question,
-        qrCode: qrCode,
-        surveyId: surveyId
+      question,
+      qrCode,
+      surveyId,
+      voteUrl
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).send('Error creating survey');
@@ -126,7 +128,7 @@ pool.getConnection()
     return conn.query("SELECT 1")
       .then(res => {
         console.log("DB connection OK:", res);
-        conn.release(); 
+        conn.release();
       })
       .catch(err => {
         console.error("Query error:", err);
@@ -136,4 +138,3 @@ pool.getConnection()
   .catch(err => {
     console.error("Connection error:", err);
   });
-

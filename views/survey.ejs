@@ -61,6 +61,9 @@
     <p><strong>Question:</strong> <%= question %></p>
     <p><strong>QR Code:</strong></p>
     <img src="<%= qrCode %>" alt="QR Code">
+    
+    <p class="link-text"><strong>QR Link:</strong> <a href="<%= voteUrl %>" target="_blank"><%= voteUrl %></a></p>
+
     <br>
     <a href="/results/<%= surveyId %>">View Results</a>
   </div>
