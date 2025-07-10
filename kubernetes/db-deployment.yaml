@@ -1,19 +1,10 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: mariadb-pvc
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 500Mi
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: db-deployment
+  namespace: qr-survey
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: db
@@ -36,8 +27,7 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/mysql
               name: mariadb-storage
-            - mountPath: /docker-entrypoint-initdb.d/init.sql
-              subPath: init.sql
+            - mountPath: /docker-entrypoint-initdb.d
               name: db-init-volume
       volumes:
         - name: mariadb-storage
@@ -46,14 +36,3 @@ spec:
         - name: db-init-volume
           configMap:
             name: db-init
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: db-service
-spec:
-  selector:
-    app: db
-  ports:
-    - port: 3306
-      targetPort: 3306

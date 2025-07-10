@@ -2,11 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: qr-survey-ingress
+  namespace: qr-survey      
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
+  ingressClassName: nginx
   rules:
-    - host: qr-survey-app.local
+    - host: qr-survey.local
       http:
         paths:
           - path: /
