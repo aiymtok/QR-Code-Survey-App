@@ -38,10 +38,9 @@ Installation and Setup
 Run the Project with Docker Compose
 Step 1 – Clone the Project:
    ```bash
-   git clone https://gitlab.hof-university.de/YOUR_USERNAME/cloud_computing_2025.git
+   git clone https://gitlab.hof-university.de/aiymt/cloud_computing_2025.git
    cd cloud_computing_2025
    ```
-   Replace YOUR_USERNAME with your actual GitLab username.
 
 Step 2 – Build and Start the Containers
 Run the following command:
