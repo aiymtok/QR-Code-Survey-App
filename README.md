@@ -46,6 +46,10 @@ Step 1 – Clone the Project:
 Step 2 – Build and Start the Containers
 Run the following command:
 ```bash
+npm install
+```
+then:
+```bash
 docker compose up --build
 ```
 
