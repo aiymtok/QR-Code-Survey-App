@@ -45,7 +45,9 @@ Step 1 – Clone the Project:
 
 Step 2 – Build and Start the Containers
 Run the following command:
+```bash
 docker compose up --build
+```
 
 Step 3 – Access the Application
 After the containers are running, open your browser and go to:
@@ -64,18 +66,25 @@ Make sure the following tools are installed:
 
 Step 1 – Start Minikube
 Start Minikube with Docker:
+```bash
 minikube start --driver=docker
+```
 
-Step 2 – Use Minikube’s Docker Environment
+Step 2 – Use Minikube’s Docker Environment:
+```bash
 eval $(minikube docker-env)
+```
 
 Step 3 – Build the Docker Images
 Run these commands from the project root:
+```bash
 docker build -t mariadb-custom ./db
 docker build -t web-custom ./web
+```
 
 Step 4 – Deploy to Kubernetes
 Apply all manifests located in the kubernetes/ folder:
+```bash
 kubectl apply -f kubernetes/namespace.yaml
 kubectl apply -f kubernetes/db-init-configmap.yaml
 kubectl apply -f kubernetes/db-deployment.yaml
@@ -83,11 +92,14 @@ kubectl apply -f kubernetes/db-service.yaml
 kubectl apply -f kubernetes/web-deployment.yaml
 kubectl apply -f kubernetes/web-service.yaml
 kubectl apply -f kubernetes/ingress.yaml
+```
 
 Step 5: Enable Ingress and Access the App
 minikube addons enable ingress
 run this in powershell as administrator:
+```bash
 minikube tunnel
+```
 
 Edit your local /etc/hosts (Linux/macOS) or C:\Windows\System32\drivers\etc\hosts (Windows):
 127.0.0.1 qr-survey-app.local
