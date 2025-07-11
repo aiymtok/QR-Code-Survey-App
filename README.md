@@ -111,8 +111,61 @@ Step 5: Then open in your browser:
 http://qr-survey-app.local/
 
 
+**Kubernetes via Port Forward**
+1. Start Minikube
 
+```bash
+minikube start --driver=docker
+```
 
+2. Build and Load Docker Images
+Web App
+```bash
+docker build -t web-custom .
+minikube image load web-custom
+```
+Database
+```bash
+docker build -t mariadb-custom .
+minikube image load mariadb-custom
+```
+
+3. Deploy Kubernetes Resources
+```bash
+kubectl apply -f kubernetes/namespace.yaml
+kubectl apply -f kubernetes/mariadb-pvc.yaml
+kubectl apply -f kubernetes/db-init-configmap.yaml
+kubectl apply -f kubernetes/db-deployment.yaml
+kubectl apply -f kubernetes/db-service.yaml
+kubectl apply -f kubernetes/web-deployment.yaml
+kubectl apply -f kubernetes/web-service.yaml
+```
+
+4. Wait for Pods to Become Ready
+```bash
+kubectl get pods -n qr-survey -w
+```
+Wait until all pods show STATUS: Running.
+
+5. Port Forwarding to Access the App
+Web App (Browser Access)
+```bash
+kubectl port-forward svc/web-service 3000:3000 -n qr-survey
+```
+
+Then open: http://localhost:3000/create
+
+**Database access:**
+MariaDB
+```bash
+kubectl port-forward svc/db-service 3307:3306 -n qr-survey
+```
+Database access:
+Host: 127.0.0.1
+Port: 3307
+User: root
+Password: (empty)
+DB name: survey_db
 
 
 
