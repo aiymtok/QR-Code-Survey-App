@@ -27,10 +27,10 @@
 └── README.md
 
 Functionality:
--Creating surveys with automatic QR code generation
--Participating in voting (Yes/No) via QR code or direct link
--Viewing results with graphical representation
--Supporting multiple surveys simultaneously
+- Creating surveys with automatic QR code generation
+- Participating in voting (Yes/No) via QR code or direct link
+- Viewing results with graphical representation
+- Supporting multiple surveys simultaneously
 
 Technologies Used:
 - Image Base: Amazon Linux 2 (custom Dockerfiles)
