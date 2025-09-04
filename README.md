@@ -26,7 +26,13 @@
 ├── package.json
 └── README.md
 
-Technologies Used
+Functionality:
+-Creating surveys with automatic QR code generation
+-Participating in voting (Yes/No) via QR code or direct link
+-Viewing results with graphical representation
+-Supporting multiple surveys simultaneously
+
+Technologies Used:
 - Image Base: Amazon Linux 2 (custom Dockerfiles)
 - Backend: Node.js with Express.js
 - Database: MariaDB (custom container, initialized via `init.sql`)
