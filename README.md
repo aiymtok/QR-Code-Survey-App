@@ -44,8 +44,8 @@ Installation and Setup
 Run the Project with Docker Compose
 Step 1 – Clone the Project:
    ```bash
-   git clone https://gitlab.hof-university.de/aiymt/cloud_computing_2025.git
-   cd cloud_computing_2025
+   git clone https://github.com/aiymtok/QR-Code-Survey-App.git
+   cd QR-Code-Survey-App
    ```
 
 Step 2 – Build and Start the Containers
